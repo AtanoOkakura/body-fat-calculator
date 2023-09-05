@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Typography } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Typography, Snackbar } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import MuiAlert from '@mui/material/Alert';
 
-interface AppProps {}
+interface AppProps { }
 
 interface Record {
   date: string;
@@ -30,6 +31,8 @@ const App: React.FC<AppProps> = () => {
   const [hip, setHip] = useState<number>(Number(localStorage.getItem('hip')) || 100);
   const [gender, setGender] = useState<string>(localStorage.getItem('gender') || 'male');
   const [bodyFat, setBodyFat] = useState<string>('');
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+
   //const [records, setRecords] = useState<Record[]>(JSON.parse(localStorage.getItem('records') || '[]'));
 
   const [records, setRecords] = useState<Record[]>(dummyData);
@@ -60,6 +63,8 @@ const App: React.FC<AppProps> = () => {
   const handleRecord = () => {
     const date = new Date().toISOString().slice(0, 10);
     setRecords((prevRecords) => [...prevRecords.filter((record) => record.date !== date), { date, height, neck, waist, hip, bodyFat: Number(bodyFat) }]);
+    setOpenSnackbar(true);
+    setTimeout(() => setOpenSnackbar(false), 3000);
   };
 
   return (
@@ -116,6 +121,9 @@ const App: React.FC<AppProps> = () => {
       <Button variant="contained" onClick={handleRecord}>
         Record
       </Button>
+      <Snackbar open={openSnackbar}>
+        <MuiAlert severity="success">記録しました！</MuiAlert>
+      </Snackbar>
       {records.length > 0 && (
         <>
           <Typography variant="h5" gutterBottom style={{ marginTop: '16px' }}>
