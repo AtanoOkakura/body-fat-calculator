@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Typography, Snackbar } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import MuiAlert from '@mui/material/Alert';
 
 interface AppProps { }
@@ -69,7 +69,7 @@ const App: React.FC<AppProps> = () => {
 
   return (
     <div style={{ padding: '16px' }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         US Navy Body Fat Calculator
       </Typography>
       <FormControl fullWidth margin="normal">
@@ -114,9 +114,9 @@ const App: React.FC<AppProps> = () => {
         />
       )}
       {bodyFat && (
-        <Typography variant="h6">
-          Your body fat percentage is: {bodyFat}%
-        </Typography>
+        <p>
+          推定体脂肪率: {bodyFat}%
+        </p>
       )}
       <Button variant="contained" onClick={handleRecord}>
         Record
@@ -129,20 +129,22 @@ const App: React.FC<AppProps> = () => {
           <Typography variant="h5" gutterBottom style={{ marginTop: '16px' }}>
             Records
           </Typography>
-          <LineChart width={600} height={300} data={records}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="height" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="neck" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="waist" stroke="#ffc658" />
-            {gender === 'female' && (
-              <Line type="monotone" dataKey="hip" stroke="#ff7300" />
-            )}
-            <Line type="monotone" dataKey="bodyFat" stroke="#ff0000" />
-          </LineChart>
+          <ResponsiveContainer width="95%" height={300}>
+            <LineChart data={records}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {/* <Line type="monotone" dataKey="height" stroke="#8884d8" activeDot={{ r: 8 }} /> */}
+              <Line type="monotone" dataKey="neck" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="waist" stroke="#ffc658" />
+              {gender === 'female' && (
+                <Line type="monotone" dataKey="hip" stroke="#ff7300" />
+              )}
+              <Line type="monotone" dataKey="bodyFat" stroke="#ff0000" />
+            </LineChart>
+          </ResponsiveContainer>
         </>
       )}
     </div>
