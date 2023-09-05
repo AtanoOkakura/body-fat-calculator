@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Typography, Snackbar } from '@mui/material';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import MuiAlert from '@mui/material/Alert';
+import { ThemeProvider } from '@emotion/react';
+
+import {theme} from './Theme';
 
 interface AppProps { }
 
@@ -24,6 +27,8 @@ const App: React.FC<AppProps> = () => {
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
   const [records, setRecords] = useState<Record[]>(JSON.parse(localStorage.getItem('records') || '[]'));
+
+
 
   useEffect(() => {
     calculateBodyFat();
@@ -56,8 +61,8 @@ const App: React.FC<AppProps> = () => {
   };
 
   return (
-    <div style={{ padding: '16px' }}>
-      <Typography variant="h4" gutterBottom >
+    <ThemeProvider theme={theme}>
+      <Typography variant="h1" gutterBottom >
         US Navy Body Fat Calculator
       </Typography>
       <FormControl fullWidth margin="normal">
@@ -102,9 +107,9 @@ const App: React.FC<AppProps> = () => {
         />
       )}
       {bodyFat && (
-        <p>
+        <Typography variant="h2" style={{margin: '16px 0 16px'}}>
           推定体脂肪率: {bodyFat}%
-        </p>
+        </Typography>
       )}
       <Button variant="contained" onClick={handleRecord}>
         Record
@@ -135,7 +140,7 @@ const App: React.FC<AppProps> = () => {
           </ResponsiveContainer>
         </>
       )}
-    </div>
+    </ThemeProvider>
   );
 };
 
