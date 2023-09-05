@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Typography, Snackbar } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import MuiAlert from '@mui/material/Alert';
 
 interface AppProps { }
@@ -14,16 +14,6 @@ interface Record {
   bodyFat: number;
 }
 
-const dummyData: Record[] = [
-  { date: '2022-01-01', height: 170, neck: 38, waist: 80, hip: 100, bodyFat: 20 },
-  { date: '2022-01-02', height: 170, neck: 37, waist: 79, hip: 99, bodyFat: 19 },
-  { date: '2022-01-03', height: 170, neck: 36, waist: 78, hip: 98, bodyFat: 18 },
-  { date: '2022-01-04', height: 170, neck: 35, waist: 77, hip: 97, bodyFat: 17 },
-  { date: '2022-01-05', height: 170, neck: 34, waist: 76, hip: 96, bodyFat: 16 },
-  { date: '2022-01-06', height: 170, neck: 33, waist: 75, hip: 95, bodyFat: 15 },
-  { date: '2022-01-07', height: 170, neck: 32, waist: 74, hip: 94, bodyFat: 14 },
-];
-
 const App: React.FC<AppProps> = () => {
   const [height, setHeight] = useState<number>(Number(localStorage.getItem('height')) || 170);
   const [neck, setNeck] = useState<number>(Number(localStorage.getItem('neck')) || 38);
@@ -33,9 +23,7 @@ const App: React.FC<AppProps> = () => {
   const [bodyFat, setBodyFat] = useState<string>('');
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
-  //const [records, setRecords] = useState<Record[]>(JSON.parse(localStorage.getItem('records') || '[]'));
-
-  const [records, setRecords] = useState<Record[]>(dummyData);
+  const [records, setRecords] = useState<Record[]>(JSON.parse(localStorage.getItem('records') || '[]'));
 
   useEffect(() => {
     calculateBodyFat();
@@ -69,7 +57,7 @@ const App: React.FC<AppProps> = () => {
 
   return (
     <div style={{ padding: '16px' }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom >
         US Navy Body Fat Calculator
       </Typography>
       <FormControl fullWidth margin="normal">
@@ -114,9 +102,9 @@ const App: React.FC<AppProps> = () => {
         />
       )}
       {bodyFat && (
-        <Typography variant="h6">
-          Your body fat percentage is: {bodyFat}%
-        </Typography>
+        <p>
+          推定体脂肪率: {bodyFat}%
+        </p>
       )}
       <Button variant="contained" onClick={handleRecord}>
         Record
@@ -129,20 +117,22 @@ const App: React.FC<AppProps> = () => {
           <Typography variant="h5" gutterBottom style={{ marginTop: '16px' }}>
             Records
           </Typography>
-          <LineChart width={600} height={300} data={records}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="height" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="neck" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="waist" stroke="#ffc658" />
-            {gender === 'female' && (
-              <Line type="monotone" dataKey="hip" stroke="#ff7300" />
-            )}
-            <Line type="monotone" dataKey="bodyFat" stroke="#ff0000" />
-          </LineChart>
+          <ResponsiveContainer width="95%" height={300}>
+            <LineChart data={records}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {/* <Line type="monotone" dataKey="height" stroke="#8884d8" activeDot={{ r: 8 }} /> */}
+              <Line type="monotone" dataKey="neck" name="ネック" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="waist" name="ウエスト" stroke="#ffc658" />
+              {gender === 'female' && (
+                <Line type="monotone" dataKey="hip" name="ヒップ" stroke="#ff7300" />
+              )}
+              <Line type="monotone" dataKey="bodyFat" name='体脂肪率' stroke="#ff0000" />
+            </LineChart>
+          </ResponsiveContainer>
         </>
       )}
     </div>
