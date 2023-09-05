@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/body-fat-calculator/static/css/main.d3ff0fa7.css",
+    "main.css": "/body-fat-calculator/static/css/main.520315f2.css",
     "main.js": "/body-fat-calculator/static/js/main.e21e76e7.js",
     "static/js/787.2251efdc.chunk.js": "/body-fat-calculator/static/js/787.2251efdc.chunk.js",
     "index.html": "/body-fat-calculator/index.html",
-    "main.d3ff0fa7.css.map": "/body-fat-calculator/static/css/main.d3ff0fa7.css.map",
+    "main.520315f2.css.map": "/body-fat-calculator/static/css/main.520315f2.css.map",
     "main.e21e76e7.js.map": "/body-fat-calculator/static/js/main.e21e76e7.js.map",
     "787.2251efdc.chunk.js.map": "/body-fat-calculator/static/js/787.2251efdc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d3ff0fa7.css",
+    "static/css/main.520315f2.css",
     "static/js/main.e21e76e7.js"
   ]
 }
